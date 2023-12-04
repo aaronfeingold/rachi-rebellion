@@ -25,7 +25,7 @@ function Carousel ({ slides }: CarouselProps) {
     };
 
     const images = slides.map((s, i) => {
-        return <img key={i} src={s} alt={`Slide ${i}`}/>;
+        return <img key={i} src={s} alt={`Slide ${i}`} />;
     });
 
     const circleDivs = [];
@@ -41,12 +41,12 @@ function Carousel ({ slides }: CarouselProps) {
             >
             </div>
         )
-    };
+    }
 
     return (
-            <div className="overflow-hidden relative">
+            <div className="h-full overflow-hidden relative">
                 <div
-                    className={`flex transition east-out duration-400`}
+                    className="flex transition ease-out duration-400"
                     style ={{
                         transform: `translateX(-${current * 100}%)`
                     }}
@@ -55,11 +55,11 @@ function Carousel ({ slides }: CarouselProps) {
                 </div>
 
                 <div className="absolute top-0 h-full w-full justify-between items-center flex text-white px-10 text-3xl">
-                    <button onClick={previousSlide} className="bg-white">
-                        <ArrowLongLeftIcon />
+                    <button onClick={previousSlide}>
+                        <ArrowLongLeftIcon className="h-5 w-5 text-blue-500"/>
                     </button>
-                    <button onClick={nextSlide} className="bg-white">
-                        <ArrowLongRightIcon />
+                    <button onClick={nextSlide}>
+                        <ArrowLongRightIcon className="h-5 w-5 text-blue-500"/>
                     </button>
                 </div>
                 <div className="absolute bottom-0 py-4 flex justify-center gap-10 w-full">
@@ -79,7 +79,7 @@ function App() {
     ];
 
     return (
-        <div className="w-[60%] m-auto pt-11">
+        <div className="h-screen w-[60%] m-auto pt-5 pb-5">
             <Carousel slides={slides} />
         </div>
     )
