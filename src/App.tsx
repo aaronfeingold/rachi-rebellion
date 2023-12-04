@@ -17,12 +17,31 @@ function Carousel ({ slides }: CarouselProps) {
     const previousSlide = () => {
         if (current === 0) setCurrent(slides.length - 1);
         else setCurrent(current - 1)
-    }
+    };
 
     const nextSlide = () => {
         if (current === slides.length - 1) setCurrent(0);
         else setCurrent(current + 1)
-    }
+    };
+
+    const images = slides.map((s, i) => {
+        return <img key={i} src={s} alt={`Slide ${i}`}/>;
+    });
+
+    const circleDivs = [];
+
+    for (let i = 0; i < slides.length; i++) {
+        circleDivs.push(
+            <div
+                onClick={()=>{
+                    setCurrent(i)
+                }}
+                key={"circle" + i}
+                className={`rounded-full w-5 h-5 ${i === current ? "bg-white" : "bg-gray-500"}`}
+            >
+            </div>
+        )
+    };
 
     return (
             <div className="overflow-hidden relative">
@@ -32,21 +51,19 @@ function Carousel ({ slides }: CarouselProps) {
                         transform: `translateX(-${current * 100}%)`
                     }}
                 >
-                    {slides.map((s, i) => {
-                        return <img key={i} src={s} alt={`Slide ${i}`}/>;
-                    })}
+                    {images}
                 </div>
 
                 <div className="absolute top-0 h-full w-full justify-between items-center flex text-white px-10 text-3xl">
-                    <button onClick={previousSlide} className="background-color #ffffff">
+                    <button onClick={previousSlide} className="bg-white">
                         <ArrowLongLeftIcon />
                     </button>
-                    <button onClick={nextSlide}>
+                    <button onClick={nextSlide} className="bg-white">
                         <ArrowLongRightIcon />
                     </button>
                 </div>
                 <div className="absolute bottom-0 py-4 flex justify-center gap-10 w-full">
-                    <div className="rounded-full w-5 h-5 bg-white"></div>
+                    {circleDivs}
                 </div>
             </div>
     )

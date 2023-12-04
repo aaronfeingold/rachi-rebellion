@@ -4,8 +4,3 @@
   padding: 2rem;
   text-align: center;
 }
-
-.carousel-slide img {
-    max-width: 100%; /* Set the maximum width to 100% of the container */
-    height: auto; /* Maintain the aspect ratio */
-  }
