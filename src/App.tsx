@@ -1,17 +1,54 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/24/solid';
+import { ArrowLongLeftIcon, ArrowLongRightIcon, HeartIcon, HomeIcon, BookOpenIcon, HandThumbUpIcon } from '@heroicons/react/24/solid';
 import presidentRanchi from './assets/president_ranchi.jpeg';
 import spookyRanchi from './assets/spooky_ranchi.jpeg';
 import ranchiAdmiringRanchi from './assets/ranchi_admiring_ranchi.jpeg';
 import ranchiSleepy from './assets/ranchi_sleepy.jpeg';
 import ranchiDuende from './assets/ranchi_duende.jpeg';
 
+interface Testimony {
+    message: string;
+    emoji: React.ForwardRefExoticComponent<
+      Omit<React.SVGProps<SVGSVGElement>, 'ref'> & {
+        title?: string | undefined;
+        titleId?: string | undefined;
+      } & React.RefAttributes<SVGSVGElement>
+    >;
+}
+
+interface TestimonyCardProps {
+    testimony: Testimony
+}
+
+const TestimonyCard: React.FC<TestimonyCardProps> = ({testimony}) => {
+    return (
+        <div>
+            <p>{testimony.message}</p>
+            {React.createElement(testimony.emoji)}
+        </div>
+    )
+}
+
+interface TestimonyContainerProps {
+    testimonies: Testimony[]
+}
+
+const TestimonyContainer: React.FC<TestimonyContainerProps> = ({testimonies}) => {
+    const testimonyCards = testimonies.map((testimony) => <TestimonyCard testimony={testimony} />);
+
+    return (
+        <div>
+            {testimonyCards}
+        </div>
+    )
+}
+
 interface CarouselProps {
     slides: string[];
 }
 
-function Carousel ({ slides }: CarouselProps) {
+const Carousel: React.FC<CarouselProps> = ({ slides }) => {
     const [current, setCurrent] = useState(0);
 
     const previousSlide = () => {
@@ -25,7 +62,7 @@ function Carousel ({ slides }: CarouselProps) {
     };
 
     const images = slides.map((s, i) => {
-        return <img key={i} src={s} alt={`Slide ${i}`} />;
+        return <img className="object-scale-down" key={i} src={s} alt={`Slide ${i}`} />;
     });
 
     const circleDivs = [];
@@ -78,10 +115,34 @@ function App() {
         ranchiDuende
     ];
 
+    const testimonies = [
+        {
+            message: "this dog is the smartest",
+            emoji: BookOpenIcon
+        },
+        {
+            message: "ranchi is too cute",
+            emoji: HeartIcon
+        },
+        {
+            message: "i want my ranchi",
+            emoji: HomeIcon
+        },
+        {
+            message: "she's such a good girl",
+            emoji: HandThumbUpIcon
+        }
+    ];
+
     return (
-        <div className="h-screen w-[60%] m-auto pt-5 pb-5">
-            <Carousel slides={slides} />
-        </div>
+        <>
+            <div className="h-screen w-[60%] m-auto pt-5 pb-5">
+                <Carousel slides={slides} />
+            </div>
+            <div className="h-screen w-[60%] m-auto pt-5 pb-5">
+                <TestimonyContainer testimonies={testimonies} />
+            </div>
+        </>
     )
 
 }
