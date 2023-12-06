@@ -1,17 +1,61 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/24/solid';
+import { ArrowLongLeftIcon, ArrowLongRightIcon, HeartIcon, HomeIcon, BookOpenIcon, HandThumbUpIcon } from '@heroicons/react/24/solid';
 import presidentRanchi from './assets/president_ranchi.jpeg';
 import spookyRanchi from './assets/spooky_ranchi.jpeg';
 import ranchiAdmiringRanchi from './assets/ranchi_admiring_ranchi.jpeg';
 import ranchiSleepy from './assets/ranchi_sleepy.jpeg';
 import ranchiDuende from './assets/ranchi_duende.jpeg';
 
+interface Testimony {
+    message: string;
+    emoji: React.ForwardRefExoticComponent<
+      Omit<React.SVGProps<SVGSVGElement>, 'ref'> & {
+        title?: string | undefined;
+        titleId?: string | undefined;
+      } & React.RefAttributes<SVGSVGElement>
+    >;
+}
+
+interface TestimonyCardProps {
+    testimony: Testimony;
+}
+
+const TestimonyCard: React.FC<TestimonyCardProps> = ({testimony}) => {
+    return (
+        <div className="flex rounded-lg h-full dark:bg-pink-800 bg-teal-400 p-8 flex-col">
+            {React.createElement(testimony.emoji, { className: "w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full dark:bg-indigo-500 bg-indigo-500 text-white flex-shrink-0"})}
+            <p className="leading-relaxed text-base text-white dark:text-gray-300">{testimony.message}</p>
+        </div>
+    )
+}
+
+interface TestimonyGridProps {
+    testimonies: Testimony[];
+}
+
+const TestimonyGrid: React.FC<TestimonyGridProps> = ({testimonies}) => {
+    const testimonyCards = testimonies.map((testimony) => <TestimonyCard testimony={testimony} />);
+
+    return (
+        <div className="grid grid-cols-4 gap-4">
+            {testimonyCards}
+        </div>
+    )
+}
+
+const TestimonyContainer: React.FC<TestimonyGridProps> = ({testimonies}) => (
+    <div className="flex flex-wrap justify-center mt-10">
+        <TestimonyGrid testimonies={testimonies} />
+    </div>
+)
+
+
 interface CarouselProps {
     slides: string[];
 }
 
-function Carousel ({ slides }: CarouselProps) {
+const Carousel: React.FC<CarouselProps> = ({ slides }) => {
     const [current, setCurrent] = useState(0);
 
     const previousSlide = () => {
@@ -46,7 +90,7 @@ function Carousel ({ slides }: CarouselProps) {
     return (
             <div className="h-full overflow-hidden relative">
                 <div
-                    className="flex transition ease-out duration-400"
+                    className="flex transition ease-in-out duration-700"
                     style ={{
                         transform: `translateX(-${current * 100}%)`
                     }}
@@ -78,10 +122,34 @@ function App() {
         ranchiDuende
     ];
 
+    const testimonies = [
+        {
+            message: "this dog is the smartest",
+            emoji: BookOpenIcon
+        },
+        {
+            message: "ranchi is too cute",
+            emoji: HeartIcon
+        },
+        {
+            message: "i want my ranchi",
+            emoji: HomeIcon
+        },
+        {
+            message: "she's such a good girl",
+            emoji: HandThumbUpIcon
+        }
+    ];
+
     return (
-        <div className="h-screen w-[60%] m-auto pt-5 pb-5">
-            <Carousel slides={slides} />
-        </div>
+        <>
+            <div className="h-screen w-[60%] m-auto pt-5 pb-5">
+                <Carousel slides={slides} />
+            </div>
+            <div className="w-[60%] m-auto pt-5 pb-5">
+                <TestimonyContainer testimonies={testimonies} />
+            </div>
+        </>
     )
 
 }
