@@ -30,11 +30,11 @@ const TestimonyCard: React.FC<TestimonyCardProps> = ({testimony}) => {
     )
 }
 
-interface TestimonyContainerProps {
+interface TestimonyGridProps {
     testimonies: Testimony[];
 }
 
-const TestimonyContainer: React.FC<TestimonyContainerProps> = ({testimonies}) => {
+const TestimonyGrid: React.FC<TestimonyGridProps> = ({testimonies}) => {
     const testimonyCards = testimonies.map((testimony) => <TestimonyCard testimony={testimony} />);
 
     return (
@@ -140,7 +140,7 @@ function App() {
                 <Carousel slides={slides} />
             </div>
             <div className="h-screen w-[60%] m-auto pt-5 pb-5">
-                <TestimonyContainer testimonies={testimonies} />
+                <TestimonyGrid testimonies={testimonies} />
             </div>
         </>
     )
