@@ -18,7 +18,7 @@ interface Testimony {
 }
 
 interface TestimonyCardProps {
-    testimony: Testimony
+    testimony: Testimony;
 }
 
 const TestimonyCard: React.FC<TestimonyCardProps> = ({testimony}) => {
@@ -31,14 +31,14 @@ const TestimonyCard: React.FC<TestimonyCardProps> = ({testimony}) => {
 }
 
 interface TestimonyContainerProps {
-    testimonies: Testimony[]
+    testimonies: Testimony[];
 }
 
 const TestimonyContainer: React.FC<TestimonyContainerProps> = ({testimonies}) => {
     const testimonyCards = testimonies.map((testimony) => <TestimonyCard testimony={testimony} />);
 
     return (
-        <div>
+        <div className="grid grid-cols-4 gap-4">
             {testimonyCards}
         </div>
     )
