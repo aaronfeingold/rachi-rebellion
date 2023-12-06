@@ -23,9 +23,9 @@ interface TestimonyCardProps {
 
 const TestimonyCard: React.FC<TestimonyCardProps> = ({testimony}) => {
     return (
-        <div>
-            <p>{testimony.message}</p>
-            {React.createElement(testimony.emoji)}
+        <div className="flex rounded-lg h-full dark:bg-pink-800 bg-teal-400 p-8 flex-col">
+            {React.createElement(testimony.emoji, { className: "w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full dark:bg-indigo-500 bg-indigo-500 text-white flex-shrink-0"})}
+            <p className="leading-relaxed text-base text-white dark:text-gray-300">{testimony.message}</p>
         </div>
     )
 }
@@ -43,6 +43,13 @@ const TestimonyGrid: React.FC<TestimonyGridProps> = ({testimonies}) => {
         </div>
     )
 }
+
+const TestimonyContainer: React.FC<TestimonyGridProps> = ({testimonies}) => (
+    <div className="flex flex-wrap justify-center mt-10">
+        <TestimonyGrid testimonies={testimonies} />
+    </div>
+)
+
 
 interface CarouselProps {
     slides: string[];
@@ -62,7 +69,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
     };
 
     const images = slides.map((s, i) => {
-        return <img className="object-scale-down" key={i} src={s} alt={`Slide ${i}`} />;
+        return <img key={i} src={s} alt={`Slide ${i}`} />;
     });
 
     const circleDivs = [];
@@ -83,7 +90,7 @@ const Carousel: React.FC<CarouselProps> = ({ slides }) => {
     return (
             <div className="h-full overflow-hidden relative">
                 <div
-                    className="flex transition ease-out duration-400"
+                    className="flex transition ease-in-out duration-700"
                     style ={{
                         transform: `translateX(-${current * 100}%)`
                     }}
@@ -139,8 +146,8 @@ function App() {
             <div className="h-screen w-[60%] m-auto pt-5 pb-5">
                 <Carousel slides={slides} />
             </div>
-            <div className="h-screen w-[60%] m-auto pt-5 pb-5">
-                <TestimonyGrid testimonies={testimonies} />
+            <div className="w-[60%] m-auto pt-5 pb-5">
+                <TestimonyContainer testimonies={testimonies} />
             </div>
         </>
     )
